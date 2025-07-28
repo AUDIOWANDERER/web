@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -25,6 +25,12 @@
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
+    }
+    .logo {
+      display: block;
+      margin: 0 auto 1em auto; /* centers horizontally, adds spacing below */
+      max-width: 30vw;          /* adjust size as needed */
+      height: auto;
     }
     h1 {
       font-size: 8vw;
@@ -54,9 +60,13 @@
 <body>
   <canvas id="canvas"></canvas>
   <div class="text">
+    <img src="awlogo.jpg" alt="Logo" class="logo" />
     <h1>AUDIOWANDERER</h1>
     <h2>Under Construction</h2>
   </div>
+
+  <!-- Drone audio -->
+  <audio id="droneAudio" src="drone.mp3" loop preload="auto"></audio>
 
   <script>
     const canvas = document.getElementById('canvas');
@@ -81,7 +91,6 @@
         const x = cx + radius * Math.cos(angle);
         const y = cy + radius * Math.sin(angle);
 
-        // Vary hue and lightness for bright psychedelic effect
         const hue = (t + i * 7) % 360;
         const lightness = 50 + 30 * Math.sin((t + i) * 0.1);
         ctx.beginPath();
@@ -98,6 +107,26 @@
       requestAnimationFrame(drawSpiral);
     }
     drawSpiral();
+
+    // Audio play logic with user interaction fallback
+    const audio = document.getElementById('droneAudio');
+    audio.volume = 0.3; // Adjust volume here
+
+    function tryPlayAudio() {
+      audio.play().catch(() => {
+        // Autoplay prevented, wait for user interaction
+        console.log('Autoplay prevented, waiting for user interaction');
+      });
+      window.removeEventListener('click', tryPlayAudio);
+      window.removeEventListener('keydown', tryPlayAudio);
+    }
+
+    // Attempt autoplay immediately
+    tryPlayAudio();
+
+    // Also listen for user interaction to enable audio
+    window.addEventListener('click', tryPlayAudio);
+    window.addEventListener('keydown', tryPlayAudio);
   </script>
 </body>
 </html>
