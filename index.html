@@ -35,14 +35,14 @@
     h1 {
       font-size: 8vw;
       mix-blend-mode: difference;
-      animation: flicker 2s infinite;
+      animation: flicker 1s infinite;
       letter-spacing: 0.1em;
     }
     h2 {
       font-size: 2.5vw;
       margin-top: 1em;
       color: #ccc;
-      animation: glitch 1.5s infinite;
+      animation: glitch 0.5s infinite;
     }
     @keyframes flicker {
       0%, 100% { opacity: 1; }
@@ -50,9 +50,9 @@
     }
     @keyframes glitch {
       0% { transform: translate(0); }
-      25% { transform: translate(-2px, 2px); }
-      50% { transform: translate(2px, -1px); }
-      75% { transform: translate(-1px, -2px); }
+      25% { transform: translate(-12px, 12px); }
+      50% { transform: translate(12px, -12px); }
+      75% { transform: translate(-11px, -12px); }
       100% { transform: translate(0); }
     }
   </style>
@@ -79,34 +79,6 @@
     }
     window.addEventListener('resize', resize);
     resize();
-
-    function drawSpiral() {
-      ctx.clearRect(0, 0, w, h);
-      const cx = w / 2;
-      const cy = h / 2;
-      let angle = 0;
-
-      for (let i = 0; i < 400; i++) {
-        const radius = i * 1.5;
-        const x = cx + radius * Math.cos(angle);
-        const y = cy + radius * Math.sin(angle);
-
-        const hue = (t + i * 7) % 360;
-        const lightness = 50 + 30 * Math.sin((t + i) * 0.1);
-        ctx.beginPath();
-        ctx.arc(x, y, 4, 0, Math.PI * 2);
-        ctx.fillStyle = `hsl(${hue}, 100%, ${lightness}%)`;
-        ctx.shadowColor = `hsl(${hue}, 100%, ${lightness}%)`;
-        ctx.shadowBlur = 10;
-        ctx.fill();
-
-        angle += 0.18;
-      }
-
-      t += 2;
-      requestAnimationFrame(drawSpiral);
-    }
-    drawSpiral();
 
     // Audio play logic with user interaction fallback
     const audio = document.getElementById('droneAudio');
